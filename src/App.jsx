@@ -4,8 +4,12 @@ import Form from "./containers/Form";
 import Search from "./containers/Search";
 import { Provider } from "react-redux";
 import storeCreator from "./store";
+import { loadState, saveState } from "./localStorage";
+let store = storeCreator(loadState());
 
-let store = storeCreator();
+store.subscribe(() => {
+  saveState(store.getState());
+});
 
 class App extends Component {
   render() {
