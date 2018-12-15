@@ -23,23 +23,26 @@ class ListItem extends PureComponent {
     this.setState(state => ({ editMode: state.editMode ? EDIT_OFF : EDIT_ON }));
   };
 
+  deleteVideo = () => {
+    this.props.deleteVideo(this.props.id);
+  };
+
+  saveChanges = () => {
+    this.props.editVideo(this.props.id, {
+      title: this.state.values.title,
+      tags: this.state.values.tags
+    });
+    this.changeEditMode();
+  };
+
   render() {
-    const { id, title, url, tags, deleteVideo, editVideo } = this.props;
+    const { id, title, url, tags } = this.props;
     const videoID = getVideoID(url);
 
     const titleBarEditOn = (
       <Fragment>
         <div>
-          <button
-            className="edit-save"
-            onClick={() => {
-              editVideo(id, {
-                title: this.state.values.title,
-                tags: this.state.values.tags
-              });
-              this.changeEditMode();
-            }}
-          >
+          <button className="edit-save" onClick={this.saveChanges}>
             OK
           </button>
           <button className="edit-cancel" onClick={this.changeEditMode}>
@@ -74,9 +77,9 @@ class ListItem extends PureComponent {
       />
     );
 
-    const tagsEditOff = tags.split(/\s*,\s*/).map(tag => {
+    const tagsEditOff = tags.split(/\s*,\s*/).map((tag, index) => {
       return (
-        <div key={(Math.random() * Date.now()).toString()} className="tag">
+        <div key={index} className="tag">
           {tag}
         </div>
       );
@@ -86,7 +89,7 @@ class ListItem extends PureComponent {
       <li key={id} className="list-item">
         <div className="item-title">
           {this.state.editMode ? titleBarEditOn : titleBarEditOff}
-          <button onClick={() => deleteVideo(id)} className="close">
+          <button onClick={this.deleteVideo} className="close">
             &times;
           </button>
         </div>
