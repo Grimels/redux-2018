@@ -11,7 +11,6 @@ class Search extends PureComponent {
 
   onChange = ({ target: { value } }) => {
     this.setState({ value });
-
     this.props.search(this.props.searchField, value);
   };
 

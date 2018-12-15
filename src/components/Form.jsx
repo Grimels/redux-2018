@@ -58,7 +58,7 @@ class Form extends PureComponent {
             onChange={this.onChange}
           />
         </div>
-        <button onClick={() => this.onAdd(this.state)}>ADD</button>
+        <button onClick={this.onAdd}>ADD</button>
       </div>
     );
   }
